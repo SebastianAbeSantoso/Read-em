@@ -1,6 +1,7 @@
 package com.example.proyek_akhir_kewirausahaan
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModel
 import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepositoryImpl
 import com.example.proyek_akhir_kewirausahaan.ui.components.BottomNavigationBar
+import com.example.proyek_akhir_kewirausahaan.ui.components.TopNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.screens.FeedScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SettingScreen
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModelFactory
@@ -72,13 +74,19 @@ fun ReademApp() {
     }
 
     Scaffold(
+        modifier = Modifier.systemBarsPadding(),
+
         topBar = {
             if (showTopBar) {
-                if (showSearchTopBar){
-                    //TopNavigationBar unbuilt
-                }
+                TopNavigationBar(
+                    showSearch = showSearchTopBar,
+                    onSearchClick = {
+                        // open search popup
+                    }
+                )
             }
         },
+
         bottomBar = {
             if (showBottomBar) {
                 BottomNavigationBar(
@@ -93,7 +101,7 @@ fun ReademApp() {
         NavHost(
             modifier = Modifier.padding(padding),
             navController = navController,
-            startDestination = ReademScreen.Feed.route
+            startDestination = ReademScreen.Setting.route
         ) {
             composable(ReademScreen.Feed.route) { FeedScreen(uiState) }
             composable(ReademScreen.Setting.route) { SettingScreen(

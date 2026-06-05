@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CollectionsBookmark
 import androidx.compose.material.icons.filled.Person
@@ -24,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.proyek_akhir_kewirausahaan.ReademScreen
 import com.example.proyek_akhir_kewirausahaan.ui.theme.AccentSalmon
@@ -69,9 +72,42 @@ fun BottomNavigationBar(
 }
 
 @Composable
+fun TopNavigationBar(
+    showSearch: Boolean,
+    onSearchClick: () -> Unit
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.background,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Read'em",
+                style = MaterialTheme.typography.headlineMedium,
+                color = AccentSalmon,
+                fontWeight = FontWeight.Bold
+            )
+
+            if (showSearch) {
+                NavigationItem(
+                    icon = Icons.Default.Search,
+                    onClick = onSearchClick
+                )
+            }
+        }
+    }
+}
+
+@Composable
 fun NavigationItem(
     icon: ImageVector,
-    selected: Boolean,
+    selected: Boolean = false,
     onClick: () -> Unit
 ) {
     Column(
