@@ -1,9 +1,9 @@
 package com.example.proyek_akhir_kewirausahaan
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,7 +29,7 @@ fun ReademApp() {
     val viewModel: ReademViewModel = viewModel(factory = factory)
     val navController = rememberNavController()
 
-    val books by viewModel.books.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     NavHost(navController, startDestination = "main") {
         composable("main") {

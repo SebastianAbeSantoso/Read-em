@@ -1,43 +1,48 @@
 package com.example.proyek_akhir_kewirausahaan.ui.theme
 
-import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = AccentSalmon,
+    secondary = SurfaceDark,
+    tertiary = GradientEnd,
+    background = BackgroundDark,
+    surface = SurfaceDark,
+    onPrimary = Color.Black,
+    onSecondary = TextPrimary,
+    onTertiary = Color.White,
+    onBackground = TextPrimary,
+    onSurface = TextPrimary,
+    surfaceVariant = Color(0xFF2C2C2C),
+    onSurfaceVariant = TextSecondary
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
+    primary = AccentSalmon,
+    secondary = SurfaceDark,
+    tertiary = GradientEnd,
+    background = BackgroundDark,
+    surface = SurfaceDark,
+    onPrimary = Color.Black,
+    onSecondary = TextPrimary,
     onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    onBackground = TextPrimary,
+    onSurface = TextPrimary
 )
 
 @Composable
 fun ProyekAkhirKewirausahaanTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true, // Force dark theme as per design
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // Disable dynamic color to maintain visual fidelity
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
