@@ -101,7 +101,7 @@ fun ReademApp() {
         NavHost(
             modifier = Modifier.padding(padding),
             navController = navController,
-            startDestination = ReademScreen.Setting.route
+            startDestination = ReademScreen.Feed.route
         ) {
             composable(ReademScreen.Feed.route) { FeedScreen(uiState) }
             composable(ReademScreen.Setting.route) { SettingScreen(

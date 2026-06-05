@@ -1,6 +1,5 @@
 package com.example.proyek_akhir_kewirausahaan.viewmodel
 
-import com.example.proyek_akhir_kewirausahaan.ReademScreen
 import com.example.proyek_akhir_kewirausahaan.model.data.BookData
 
 data class ReademUiState(
