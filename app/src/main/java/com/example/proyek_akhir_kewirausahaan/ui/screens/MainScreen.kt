@@ -1,51 +1,135 @@
 package com.example.proyek_akhir_kewirausahaan.ui.screens
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CollectionsBookmark
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.example.proyek_akhir_kewirausahaan.ReademScreen
+import com.example.proyek_akhir_kewirausahaan.ui.theme.AccentSalmon
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavHostController,
     viewModel: ReademViewModel
-){
-    val listBooks by viewModel.books.collectAsStateWithLifecycle()
+) {
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text("Readem")},
+        bottomBar = {
+            BottomNavigationBar(
+                currentScreen = uiState.currentScreen,
+                onScreenSelected = { viewModel.navigateTo(it) }
             )
         }
-    ) {innerPadding ->
-        LazyColumn(modifier = Modifier
-            .fillMaxSize()
-            .padding(innerPadding)
-        ) {
-            items(listBooks) { book ->
-                Text(text = book.title,
-                style = MaterialTheme.typography.titleMedium,
-                fontSize = 25.sp,
-                modifier = Modifier.padding(top = 30.dp, bottom = 5.dp, start = 20.dp)
+    ) { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            when (uiState.currentScreen) {
+                ReademScreen.Feed -> LibraryPlaceholder()
+                ReademScreen.Search -> ScreenPlaceholder("Search")
+                ReademScreen.Profile -> ScreenPlaceholder("Profile")
+                ReademScreen.Setting -> SettingScreen(
+                    uiState = uiState,
+                    onFontSizeChange = { viewModel.updateFontSize(it) },
+                    onDailyRemindersToggle = { viewModel.toggleDailyReminders(it) },
+                    onNewReleasesToggle = { viewModel.toggleNewReleases(it) }
                 )
             }
         }
+    }
+}
+
+@Composable
+fun BottomNavigationBar(
+    currentScreen: ReademScreen,
+    onScreenSelected: (ReademScreen) -> Unit
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NavigationItem(
+                icon = Icons.Default.CollectionsBookmark,
+                selected = currentScreen == ReademScreen.Feed,
+                onClick = { onScreenSelected(ReademScreen.Feed) }
+            )
+            NavigationItem(
+                icon = Icons.Default.Search,
+                selected = currentScreen == ReademScreen.Search,
+                onClick = { onScreenSelected(ReademScreen.Search) }
+            )
+            NavigationItem(
+                icon = Icons.Default.Person,
+                selected = currentScreen == ReademScreen.Profile,
+                onClick = { onScreenSelected(ReademScreen.Profile) }
+            )
+            NavigationItem(
+                icon = Icons.Default.Settings,
+                selected = currentScreen == ReademScreen.Setting,
+                onClick = { onScreenSelected(ReademScreen.Setting) }
+            )
+        }
+    }
+}
+
+@Composable
+fun NavigationItem(
+    icon: ImageVector,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable { onClick() }
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = if (selected) AccentSalmon else Color.Gray,
+            modifier = Modifier.size(28.dp)
+        )
+        if (selected) {
+            Box(
+                modifier = Modifier
+                    .size(4.dp)
+                    .background(AccentSalmon, shape = androidx.compose.foundation.shape.CircleShape)
+            )
+        }
+    }
+}
+
+@Composable
+fun LibraryPlaceholder() {
+    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Text("Library Content Placeholder")
+    }
+}
+
+@Composable
+fun ScreenPlaceholder(title: String) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = "$title Placeholder")
     }
 }
