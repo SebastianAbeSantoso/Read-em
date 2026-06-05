@@ -1,58 +1,32 @@
-package com.example.proyek_akhir_kewirausahaan.ui.screens
+package com.example.proyek_akhir_kewirausahaan.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CollectionsBookmark
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.proyek_akhir_kewirausahaan.ReademScreen
 import com.example.proyek_akhir_kewirausahaan.ui.theme.AccentSalmon
-import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModel
-
-@Composable
-fun MainScreen(
-    navController: NavHostController,
-    viewModel: ReademViewModel
-) {
-    val uiState by viewModel.uiState.collectAsState()
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            BottomNavigationBar(
-                currentScreen = uiState.currentScreen,
-                onScreenSelected = { viewModel.navigateTo(it) }
-            )
-        }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            when (uiState.currentScreen) {
-                ReademScreen.Feed -> LibraryPlaceholder()
-                ReademScreen.Search -> ScreenPlaceholder("Search")
-                ReademScreen.Profile -> ScreenPlaceholder("Profile")
-                ReademScreen.Setting -> SettingScreen(
-                    uiState = uiState,
-                    onFontSizeChange = { viewModel.updateFontSize(it) },
-                    onDailyRemindersToggle = { viewModel.toggleDailyReminders(it) },
-                    onNewReleasesToggle = { viewModel.toggleNewReleases(it) }
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun BottomNavigationBar(

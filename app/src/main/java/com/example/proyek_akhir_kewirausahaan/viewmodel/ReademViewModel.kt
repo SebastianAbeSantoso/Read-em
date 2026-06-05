@@ -2,6 +2,7 @@ package com.example.proyek_akhir_kewirausahaan.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.proyek_akhir_kewirausahaan.ReademScreen
+import com.example.proyek_akhir_kewirausahaan.model.data.BookData
 import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,17 +12,13 @@ class ReademViewModel(
     private val bookRepository: BookRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ReademUiState())
+    private val _uiState = MutableStateFlow(
+        ReademUiState(
+            books = bookRepository.getAllBooks()
+        )
+    )
+
     val uiState = _uiState.asStateFlow()
-
-    init {
-        val books = bookRepository.getAllBooks()
-        _uiState.update { it.copy(books = books) }
-    }
-
-    fun navigateTo(screen: ReademScreen) {
-        _uiState.update { it.copy(currentScreen = screen) }
-    }
 
     fun updateFontSize(size: Float) {
         _uiState.update { it.copy(fontSize = size) }
