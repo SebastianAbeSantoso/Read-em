@@ -204,7 +204,13 @@ fun NotificationsSection(
                 Switch(
                     checked = dailyReminders,
                     onCheckedChange = onDailyRemindersToggle,
-                    colors = SwitchDefaults.colors(checkedThumbColor = AccentSalmon)
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = AccentSalmon,
+                        uncheckedThumbColor = Color.Gray,
+                        uncheckedTrackColor = Color.Transparent,
+                        uncheckedBorderColor = Color.Gray
+                    )
                 )
             }
             
@@ -217,7 +223,13 @@ fun NotificationsSection(
                 Switch(
                     checked = newReleases,
                     onCheckedChange = onNewReleasesToggle,
-                    colors = SwitchDefaults.colors(checkedThumbColor = AccentSalmon)
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = AccentSalmon,
+                        uncheckedThumbColor = Color.Gray,
+                        uncheckedTrackColor = Color.Transparent,
+                        uncheckedBorderColor = Color.Gray
+                    )
                 )
             }
         }
