@@ -18,6 +18,7 @@ import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepositoryImp
 import com.example.proyek_akhir_kewirausahaan.ui.components.BottomNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.components.TopNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.screens.FeedScreen
+import com.example.proyek_akhir_kewirausahaan.ui.screens.ProfileScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SettingScreen
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModelFactory
 
@@ -25,7 +26,7 @@ enum class ReademScreen(val route: String) {
     Feed("feed"),
     Search("search"),
     Profile("profile"),
-    Setting("settings")
+    Setting("settings"),
 
 }
 
@@ -104,11 +105,18 @@ fun ReademApp() {
             startDestination = ReademScreen.Feed.route
         ) {
             composable(ReademScreen.Feed.route) { FeedScreen(uiState) }
-            composable(ReademScreen.Setting.route) { SettingScreen(
+            composable(ReademScreen.Setting.route) {
+                SettingScreen(
                 uiState,
                 onFontSizeChange,
                 onDailyRemindersToggle,
                 onNewReleasesToggle
+                )
+            }
+            composable(ReademScreen.Profile.route) {
+                ProfileScreen(
+                    Modifier,
+                    uiState
                 )
             }
         }

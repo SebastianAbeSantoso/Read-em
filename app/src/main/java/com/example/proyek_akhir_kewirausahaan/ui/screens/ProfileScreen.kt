@@ -26,11 +26,8 @@ import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
 
 @Composable
 fun ProfileScreen(
-    uiState: ReademUiState,
-    onFontSizeChange: (Float) -> Unit = {},
-    onDailyRemindersToggle: (Boolean) -> Unit = {},
-    onNewReleasesToggle: (Boolean) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    uiState: ReademUiState
 ) {
     LazyColumn(
         modifier = modifier

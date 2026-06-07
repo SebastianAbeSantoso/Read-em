@@ -1,30 +1,34 @@
 package com.example.proyek_akhir_kewirausahaan.ui.screens
 
+import java.util.Locale
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Factory
+import androidx.compose.material.icons.automirrored.filled.Reply
+import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
-import com.example.proyek_akhir_kewirausahaan.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,69 +48,186 @@ fun FeedScreen(
         items(books) { book ->
             Box(modifier = Modifier.fillParentMaxSize()) {
                 Image(
-                    painter = painterResource(R.drawable.mymbg),
+                    painter = painterResource(book.coverResId),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
-                    contentDescription = book.title + " background image"
+                    contentDescription = book.title + " cover image"
                 )
 
-                Column(modifier = Modifier.fillMaxSize()){
-                    Spacer(modifier = Modifier.weight(0.7f))
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(alpha = 0.3f),
+                                    Color.Black.copy(alpha = 0.8f)
+                                ),
+                                startY = 300f
+                            )
+                        )
+                )
 
-                    Row(Modifier.weight(1f)) {
-                        Column(Modifier.weight(1f)) {
-                            Image(
-                                painter = painterResource(R.drawable.mymbg),
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop,
-                                contentDescription = book.title + " background image"
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp, vertical = 40.dp),
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(bottom = 12.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Surface(
+                                color = Color(0xFFE57373),
+                                shape = RoundedCornerShape(4.dp)
+                            ) {
+                                Text(
+                                    text = "MUST READ",
+                                    color = Color.White,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = "${book.readingTimeMin} MIN READ",
+                                color = Color.White.copy(alpha = 0.8f),
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.Medium
                             )
                         }
 
-                        Column(Modifier.fillMaxHeight().weight(0.3f), verticalArrangement = Arrangement.spacedBy(36.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Column(modifier = Modifier.fillMaxWidth().weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Icon(
-                                    imageVector = Icons.Default.Factory,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(40.dp)
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            text = book.title.uppercase(),
+                            color = Color.White,
+                            style = MaterialTheme.typography.displaySmall.copy(
+                                fontWeight = FontWeight.Bold,
+                                lineHeight = 36.sp
+                            )
+                        )
+
+                        Text(
+                            text = "by ${book.author}",
+                            color = Color(0xFFE57373),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            text = book.synopsis,
+                            color = Color.White.copy(alpha = 0.9f),
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis
+                        )
+
+                        Spacer(modifier = Modifier.height(32.dp))
+
+                        Button(
+                            onClick = { /*isi klik ntar*/ },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                            contentPadding = PaddingValues(0.dp),
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier
+                                .fillMaxWidth(0.85f)
+                                .height(56.dp)
+                                .background(
+                                    brush = Brush.horizontalGradient(
+                                        colors = listOf(Color(0xFFE57373), Color(0xFFD32F2F))
+                                    ),
+                                    shape = RoundedCornerShape(8.dp)
                                 )
-
-                                Text("Hi")
-                            }
-
-                            Column(modifier = Modifier.fillMaxWidth().weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Icon(
-                                    imageVector = Icons.Default.Factory,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(40.dp)
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    "READ FIRST CHAPTER",
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 1.sp
                                 )
-
-                                Text("Hi")
-                            }
-
-                            Column(modifier = Modifier.fillMaxWidth().weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Spacer(modifier = Modifier.width(8.dp))
                                 Icon(
-                                    imageVector = Icons.Default.Factory,
+                                    imageVector = Icons.Default.ChevronRight,
                                     contentDescription = null,
-                                    modifier = Modifier.size(40.dp)
+                                    tint = Color.White
                                 )
-
-                                Text("Hi")
-                            }
-
-                            Column(modifier = Modifier.fillMaxWidth().weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Icon(
-                                    imageVector = Icons.Default.Factory,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(40.dp)
-                                )
-
-                                Text("Hi")
                             }
                         }
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .width(60.dp)
+                            .padding(bottom = 12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(28.dp)
+                    ) {
+                        FeedActionItem(
+                            icon = Icons.Default.Favorite,
+                            label = if (book.readersCount >= 1000) "${String.format(Locale.US, "%.1f", book.readersCount / 1000.0)}K" else "${book.readersCount}"
+                        )
+                        FeedActionItem(
+                            icon = Icons.AutoMirrored.Filled.Reply,
+                            label = "SHARE"
+                        )
+                        FeedActionItem(
+                            icon = Icons.Default.Bookmark,
+                            label = "SAVE"
+                        )
+                        FeedActionItem(
+                            icon = Icons.Default.BarChart,
+                            label = "STATS"
+                        )
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun FeedActionItem(
+    icon: ImageVector,
+    label: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = Color.White.copy(alpha = 0.1f),
+            modifier = Modifier.size(48.dp)
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = label,
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = label,
+            color = Color.White,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold,
+            fontSize = 9.sp
+        )
     }
 }
