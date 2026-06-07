@@ -127,7 +127,8 @@ fun FeedScreen(
                             color = Color.White.copy(alpha = 0.9f),
                             style = MaterialTheme.typography.bodyMedium,
                             maxLines = 3,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.fillMaxWidth(0.85f)
                         )
 
                         Spacer(modifier = Modifier.height(32.dp))

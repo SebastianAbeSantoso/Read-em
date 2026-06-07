@@ -1,5 +1,9 @@
 package com.example.proyek_akhir_kewirausahaan.ui.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,7 +48,7 @@ fun BottomNavigationBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp, horizontal = 8.dp),
+                .padding(vertical = 12.dp, horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -120,59 +124,68 @@ fun NavigationItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    if (selected) {
-        Box(
-            modifier = Modifier
-                .height(56.dp)
-                .width(110.dp)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(Color(0xFFE57373), Color(0xFFD32F2F))
-                    ),
-                    shape = RoundedCornerShape(14.dp)
-                )
-                .clickable { onClick() },
-            contentAlignment = Alignment.Center
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+    AnimatedContent(
+        targetState = selected,
+        transitionSpec = {
+            fadeIn() togetherWith fadeOut()
+        },
+        label = "NavItemAnimation",
+        modifier = Modifier.padding(2.dp)
+    ) { isSelected ->
+        if (isSelected) {
+            Box(
+                modifier = Modifier
+                    .height(64.dp)
+                    .width(104.dp)
+                    .background(
+                        brush = Brush.horizontalGradient(
+                            colors = listOf(Color(0xFFE57373), Color(0xFFD32F2F))
+                        ),
+                        shape = RoundedCornerShape(14.dp)
+                    )
+                    .clickable { onClick() },
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = label,
+                        color = Color.White,
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        } else {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                    .clickable { onClick() }
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(20.dp)
+                    tint = Color.Gray,
+                    modifier = Modifier.size(24.dp)
                 )
-                Spacer(modifier = Modifier.width(6.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = label,
-                    color = Color.White,
-                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
                     fontWeight = FontWeight.Bold
                 )
             }
-        }
-    } else {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(vertical = 4.dp, horizontal = 8.dp)
-                .clickable { onClick() }
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = Color.Gray,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = label,
-                color = Color.Gray,
-                style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
-                fontWeight = FontWeight.Bold
-            )
         }
     }
 }
