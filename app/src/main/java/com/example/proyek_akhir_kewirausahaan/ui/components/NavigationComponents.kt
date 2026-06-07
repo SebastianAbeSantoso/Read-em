@@ -55,8 +55,8 @@ fun BottomNavigationBar(
             NavigationItem(
                 icon = Icons.AutoMirrored.Filled.LibraryBooks,
                 label = "LIBRARY",
-                selected = currentScreen == ReademScreen.Search,
-                onClick = { onScreenSelected(ReademScreen.Search) }
+                selected = currentScreen == ReademScreen.Library,
+                onClick = { onScreenSelected(ReademScreen.Library) }
             )
             NavigationItem(
                 icon = Icons.Default.Explore,

@@ -19,6 +19,7 @@ import com.example.proyek_akhir_kewirausahaan.ui.components.BottomNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.components.TopNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.screens.FeedScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.ProfileScreen
+import com.example.proyek_akhir_kewirausahaan.ui.screens.SearchScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SettingScreen
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModelFactory
 
@@ -27,6 +28,7 @@ enum class ReademScreen(val route: String) {
     Search("search"),
     Profile("profile"),
     Setting("settings"),
+    Library("library")
 
 }
 
@@ -56,15 +58,17 @@ fun ReademApp() {
     val showBottomBar = when (currentScreen) {
         ReademScreen.Feed,
         ReademScreen.Profile,
-        ReademScreen.Setting -> true
-        else -> false
+        ReademScreen.Setting,
+        ReademScreen.Search,
+        ReademScreen.Library -> true
     }
 
     val showTopBar = when (currentScreen) {
         ReademScreen.Feed,
-        ReademScreen.Search,
         ReademScreen.Profile,
-        ReademScreen.Setting -> true
+        ReademScreen.Setting,
+        ReademScreen.Search,
+        ReademScreen.Library -> true
     }
 
     val showSearchTopBar = when (currentScreen) {
@@ -82,7 +86,7 @@ fun ReademApp() {
                 TopNavigationBar(
                     showSearch = showSearchTopBar,
                     onSearchClick = {
-                        // open search popup
+                        navController.navigate(ReademScreen.Search.route)
                     }
                 )
             }
@@ -105,6 +109,7 @@ fun ReademApp() {
             startDestination = ReademScreen.Feed.route
         ) {
             composable(ReademScreen.Feed.route) { FeedScreen(uiState) }
+            composable(ReademScreen.Search.route) { SearchScreen(uiState) }
             composable(ReademScreen.Setting.route) {
                 SettingScreen(
                 uiState,
@@ -119,6 +124,7 @@ fun ReademApp() {
                     uiState
                 )
             }
+            composable(ReademScreen.Library.route) { /* screen malik */ }
         }
     }
 }
