@@ -1,5 +1,6 @@
 package com.example.proyek_akhir_kewirausahaan.ui.screens
 
+import android.content.Intent
 import java.util.Locale
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,6 +42,7 @@ fun FeedScreen(
     onReadFirstChapter: (String) -> Unit,
     onBookClick: (String) -> Unit
 ) {
+    val context = LocalContext.current
     val books = uiState.books
     val listState = rememberLazyListState()
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
@@ -183,19 +186,30 @@ fun FeedScreen(
                     ) {
                         FeedActionItem(
                             icon = Icons.Default.Favorite,
-                            label = if (book.readersCount >= 1000) "${String.format(Locale.US, "%.1f", book.readersCount / 1000.0)}K" else "${book.readersCount}"
+                            label = if (book.readersCount >= 1000) "${String.format(Locale.US, "%.1f", book.readersCount / 1000.0)}K" else "${book.readersCount}",
+                            onClick = { /* Handle Like */ }
                         )
                         FeedActionItem(
                             icon = Icons.AutoMirrored.Filled.Reply,
-                            label = "SHARE"
+                            label = "SHARE",
+                            onClick = {
+                                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                                    type = "text/plain"
+                                    putExtra(Intent.EXTRA_SUBJECT, "Check out this book on Read'em")
+                                    putExtra(Intent.EXTRA_TEXT, "I'm reading '${book.title}' by ${book.author} on Read'em! \n\n${book.synopsis}")
+                                }
+                                context.startActivity(Intent.createChooser(shareIntent, "Share book"))
+                            }
                         )
                         FeedActionItem(
                             icon = Icons.Default.Bookmark,
-                            label = "SAVE"
+                            label = "SAVE",
+                            onClick = { /* Handle Save */ }
                         )
                         FeedActionItem(
                             icon = Icons.Default.BarChart,
-                            label = "STATS"
+                            label = "STATS",
+                            onClick = { /* Handle Stats */ }
                         )
                     }
                 }
