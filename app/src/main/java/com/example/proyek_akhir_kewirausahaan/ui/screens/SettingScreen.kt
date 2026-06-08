@@ -31,7 +31,9 @@ fun SettingScreen(
     uiState: ReademUiState,
     onFontSizeChange: (Float) -> Unit,
     onDailyRemindersToggle: (Boolean) -> Unit,
-    onNewReleasesToggle: (Boolean) -> Unit
+    onNewReleasesToggle: (Boolean) -> Unit,
+    onManagePlanClick: () -> Unit = {},
+    onSupportClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -49,7 +51,7 @@ fun SettingScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         SectionHeader(title = "Account")
-        AccountCard()
+        AccountCard(onManagePlanClick)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -70,7 +72,7 @@ fun SettingScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        SupportHelpCard()
+        SupportHelpCard(onSupportClick)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -97,7 +99,7 @@ fun SectionHeader(title: String) {
 }
 
 @Composable
-fun AccountCard() {
+fun AccountCard(onManagePlanClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -113,7 +115,7 @@ fun AccountCard() {
             Spacer(modifier = Modifier.height(16.dp))
             
             Button(
-                onClick = { /* TODO */ },
+                onClick = onManagePlanClick,
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
@@ -237,13 +239,14 @@ fun NotificationsSection(
 }
 
 @Composable
-fun SupportHelpCard() {
+fun SupportHelpCard(onSupportClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
+        onClick = onSupportClick
     ) {
         Row(
             modifier = Modifier

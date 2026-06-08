@@ -108,8 +108,7 @@ fun FeedScreen(
                             text = book.title.uppercase(),
                             color = Color.White,
                             style = MaterialTheme.typography.displaySmall.copy(
-                                fontWeight = FontWeight.Bold,
-                                lineHeight = 36.sp
+                                fontWeight = FontWeight.Bold
                             )
                         )
 
@@ -227,8 +226,7 @@ fun FeedActionItem(
             text = label,
             color = Color.White,
             style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Bold,
-            fontSize = 9.sp
+            fontWeight = FontWeight.Bold
         )
     }
 }
