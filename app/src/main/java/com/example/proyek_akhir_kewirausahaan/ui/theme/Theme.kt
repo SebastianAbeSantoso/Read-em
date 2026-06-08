@@ -43,6 +43,7 @@ fun ProyekAkhirKewirausahaanTheme(
     darkTheme: Boolean = true, // Force dark theme as per design
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false, // Disable dynamic color to maintain visual fidelity
+    fontSize: Float = 18f,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -56,7 +57,7 @@ fun ProyekAkhirKewirausahaanTheme(
 
     MaterialTheme(
       colorScheme = colorScheme,
-      typography = Typography,
+      typography = getTypography(fontSize),
       content = content
     )
 }
