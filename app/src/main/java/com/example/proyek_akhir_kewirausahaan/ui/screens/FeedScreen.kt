@@ -3,6 +3,7 @@ package com.example.proyek_akhir_kewirausahaan.ui.screens
 import java.util.Locale
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,13 +29,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.proyek_akhir_kewirausahaan.ui.components.FeedActionItem
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedScreen(
-    uiState: ReademUiState
+    uiState: ReademUiState,
+    onReadFirstChapter: (String) -> Unit,
+    onBookClick: (String) -> Unit
 ) {
     val books = uiState.books
     val listState = rememberLazyListState()
@@ -109,7 +113,10 @@ fun FeedScreen(
                             color = Color.White,
                             style = MaterialTheme.typography.displaySmall.copy(
                                 fontWeight = FontWeight.Bold
-                            )
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .clickable { onBookClick(book.id) }
                         )
 
                         Text(
@@ -133,7 +140,7 @@ fun FeedScreen(
                         Spacer(modifier = Modifier.height(32.dp))
 
                         Button(
-                            onClick = { /*isi klik ntar*/ },
+                            onClick = { onReadFirstChapter(book.id) },
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                             contentPadding = PaddingValues(0.dp),
                             shape = RoundedCornerShape(8.dp),
@@ -194,39 +201,5 @@ fun FeedScreen(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun FeedActionItem(
-    icon: ImageVector,
-    label: String,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
-        Surface(
-            shape = RoundedCornerShape(12.dp),
-            color = Color.White.copy(alpha = 0.1f),
-            modifier = Modifier.size(48.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = label,
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            color = Color.White,
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Bold
-        )
     }
 }

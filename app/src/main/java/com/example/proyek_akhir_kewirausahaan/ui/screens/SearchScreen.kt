@@ -3,6 +3,7 @@ package com.example.proyek_akhir_kewirausahaan.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,7 +33,8 @@ import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
 @Composable
 fun SearchScreen(
     uiState: ReademUiState,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onBookClick: (String) -> Unit = {}
 ) {
     var searchQuery by remember { mutableStateOf("") }
 
@@ -173,7 +175,7 @@ fun SearchScreen(
             }
 
             items(uiState.books) { book ->
-                RecentResultItem(book)
+                RecentResultItem(book, onBookClick)
             }
         }
     }
@@ -243,11 +245,13 @@ fun CategoryCard(
 }
 
 @Composable
-fun RecentResultItem(book: BookData) {
+fun RecentResultItem(book: BookData, onClick: (String) -> Unit) {
     Surface(
         color = Color(0xFF1E1E1E),
         shape = RoundedCornerShape(12.dp),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick(book.id) }
     ) {
         Row(
             modifier = Modifier

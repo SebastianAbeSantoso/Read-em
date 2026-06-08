@@ -17,8 +17,10 @@ import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModel
 import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepositoryImpl
 import com.example.proyek_akhir_kewirausahaan.ui.components.BottomNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.components.TopNavigationBar
+import com.example.proyek_akhir_kewirausahaan.ui.screens.BookDetailScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.FeedScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.ProfileScreen
+import com.example.proyek_akhir_kewirausahaan.ui.screens.ReadingScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SearchScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SettingScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SubscriptionScreen
@@ -33,7 +35,9 @@ enum class ReademScreen(val route: String) {
     Setting("settings"),
     Library("library"),
     Subscription("subscription"),
-    Support("support")
+    Support("support"),
+    Reading("reading/{bookId}"),
+    BookDetail("bookDetail/{bookId}")
 }
 
 @Composable
@@ -66,7 +70,9 @@ fun ReademApp() {
         ReademScreen.Search,
         ReademScreen.Library -> true
         ReademScreen.Subscription,
-        ReademScreen.Support -> false
+        ReademScreen.Support,
+        ReademScreen.Reading,
+        ReademScreen.BookDetail -> false
     }
 
     val showTopBar = when (currentScreen) {
@@ -76,7 +82,9 @@ fun ReademApp() {
         ReademScreen.Library -> true
         ReademScreen.Search,
         ReademScreen.Subscription,
-        ReademScreen.Support -> false
+        ReademScreen.Support,
+        ReademScreen.Reading,
+        ReademScreen.BookDetail -> false
     }
 
     val showSearchTopBar = when (currentScreen) {
@@ -117,11 +125,24 @@ fun ReademApp() {
                 navController = navController,
                 startDestination = ReademScreen.Feed.route
             ) {
-                composable(ReademScreen.Feed.route) { FeedScreen(uiState) }
+                composable(ReademScreen.Feed.route) {
+                    FeedScreen(
+                        uiState = uiState,
+                        onReadFirstChapter = { bookId ->
+                            navController.navigate("reading/$bookId")
+                        },
+                        onBookClick = { bookId ->
+                            navController.navigate("bookDetail/$bookId")
+                        }
+                    )
+                }
                 composable(ReademScreen.Search.route) {
                     SearchScreen(
                         uiState = uiState,
-                        onBackClick = { navController.popBackStack() }
+                        onBackClick = { navController.popBackStack() },
+                        onBookClick = { bookId ->
+                            navController.navigate("bookDetail/$bookId")
+                        }
                     )
                 }
                 composable(ReademScreen.Setting.route) {
@@ -151,6 +172,32 @@ fun ReademApp() {
                     )
                 }
                 composable(ReademScreen.Library.route) { /* screen malik */ }
+                composable(
+                    route = ReademScreen.Reading.route,
+                ) { backStackEntry ->
+                    val bookId = backStackEntry.arguments?.getString("bookId")
+                    val book = uiState.books.find { it.id == bookId }
+                    val chapter = bookId?.let { viewModel.getFirstChapter(it) }
+
+                    ReadingScreen(
+                        book = book,
+                        chapter = chapter,
+                        onBack = { navController.popBackStack() },
+                        fontSize = uiState.fontSize
+                    )
+                }
+                composable(ReademScreen.BookDetail.route) { backStackEntry ->
+                    val bookId = backStackEntry.arguments?.getString("bookId")
+                    val book = uiState.books.find { it.id == bookId }
+
+                    BookDetailScreen(
+                        book = book,
+                        onBack = { navController.popBackStack() },
+                        onReadClick = { id ->
+                            navController.navigate("reading/$id")
+                        }
+                    )
+                }
             }
         }
     }

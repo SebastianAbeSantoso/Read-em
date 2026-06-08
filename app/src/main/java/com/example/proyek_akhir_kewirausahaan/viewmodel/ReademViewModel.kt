@@ -29,4 +29,6 @@ class ReademViewModel(
     fun toggleNewReleases(enabled: Boolean) {
         _uiState.update { it.copy(newReleases = enabled) }
     }
+
+    fun getFirstChapter(bookId: String) = bookRepository.getChapters(bookId).firstOrNull { it.number == 1 }
 }
