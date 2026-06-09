@@ -18,10 +18,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.proyek_akhir_kewirausahaan.model.data.BookData
+import com.example.proyek_akhir_kewirausahaan.domain.model.Book
 import com.example.proyek_akhir_kewirausahaan.ui.theme.AccentSalmon
 import com.example.proyek_akhir_kewirausahaan.ui.theme.ProyekAkhirKewirausahaanTheme
-import com.example.proyek_akhir_kewirausahaan.ui.theme.TextSecondary
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
 
 @Composable
@@ -93,6 +92,7 @@ fun UserInfoSection() {
             color = Color(0xFF231F1E),
             shape = RoundedCornerShape(16.dp)
         ) {
+            @Suppress("DEPRECATION")
             Text(
                 text = "PREMIUM ARCHIVIST",
                 color = Color(0xFF8E8E8E),
@@ -254,6 +254,7 @@ fun XpBar(height: androidx.compose.ui.unit.Dp, label: String, active: Boolean) {
                 )
         )
         Spacer(modifier = Modifier.height(12.dp))
+        @Suppress("DEPRECATION")
         Text(text = label, color = Color(0xFF4E4E4E), fontSize = 10.sp, fontWeight = FontWeight.Bold)
     }
 }
@@ -324,7 +325,7 @@ fun CredentialItem(name: String) {
 }
 
 @Composable
-fun ArchiveBreakdownSection(books: List<BookData>) {
+fun ArchiveBreakdownSection(books: List<Book>) {
     Column {
         Text(
             text = "Archive Breakdown",
@@ -335,13 +336,15 @@ fun ArchiveBreakdownSection(books: List<BookData>) {
         
         Spacer(modifier = Modifier.height(24.dp))
         
-        val displayBooks = books.ifEmpty { 
+        val displayBooks = if (books.isEmpty()) { 
             listOf(
-                BookData("1", "Silent Horizon", "Author", 0, listOf("SCIENCE FICTION"), "", 0, 0, 0.0, 0),
-                BookData("2", "The Lost Archive", "Author", 0, listOf("MYSTERY"), "", 0, 0, 0.0, 0),
-                BookData("3", "Digital Breath", "Author", 0, listOf("CYBERPUNK"), "", 0, 0, 0.0, 0),
-                BookData("4", "Kinetic Dreams", "Author", 0, listOf("POETRY"), "", 0, 0, 0.0, 0)
+                Book("1", "Silent Horizon", "Author", 0, listOf("SCIENCE FICTION"), "", 0, 0, 0.0, 0),
+                Book("2", "The Lost Archive", "Author", 0, listOf("MYSTERY"), "", 0, 0, 0.0, 0),
+                Book("3", "Digital Breath", "Author", 0, listOf("CYBERPUNK"), "", 0, 0, 0.0, 0),
+                Book("4", "Kinetic Dreams", "Author", 0, listOf("POETRY"), "", 0, 0, 0.0, 0)
             )
+        } else {
+            books
         }
         
         displayBooks.chunked(2).forEach { rowBooks ->
@@ -362,7 +365,7 @@ fun ArchiveBreakdownSection(books: List<BookData>) {
 }
 
 @Composable
-fun ArchiveBookItem(book: BookData, modifier: Modifier = Modifier) {
+fun ArchiveBookItem(book: Book, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Box(
             modifier = Modifier
@@ -417,10 +420,10 @@ fun ProfileScreenPreview() {
             ProfileScreen(
                 uiState = ReademUiState(
                     books = listOf(
-                        BookData("1", "Silent Horizon", "Author", 0, listOf("SCIENCE FICTION"), "", 0, 0, 0.0, 0),
-                        BookData("2", "The Lost Archive", "Author", 0, listOf("MYSTERY"), "", 0, 0, 0.0, 0),
-                        BookData("3", "Digital Breath", "Author", 0, listOf("CYBERPUNK"), "", 0, 0, 0.0, 0),
-                        BookData("4", "Kinetic Dreams", "Author", 0, listOf("POETRY"), "", 0, 0, 0.0, 0)
+                        Book("1", "Silent Horizon", "Author", 0, listOf("SCIENCE FICTION"), "", 0, 0, 0.0, 0),
+                        Book("2", "The Lost Archive", "Author", 0, listOf("MYSTERY"), "", 0, 0, 0.0, 0),
+                        Book("3", "Digital Breath", "Author", 0, listOf("CYBERPUNK"), "", 0, 0, 0.0, 0),
+                        Book("4", "Kinetic Dreams", "Author", 0, listOf("POETRY"), "", 0, 0, 0.0, 0)
                     )
                 )
             )

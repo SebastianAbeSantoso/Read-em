@@ -8,13 +8,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -22,14 +22,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.proyek_akhir_kewirausahaan.model.data.BookData
+import com.example.proyek_akhir_kewirausahaan.domain.model.Book
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookDetailScreen(
-    book: BookData?,
+    book: Book?,
     onBack: () -> Unit,
-    onReadClick: (String) -> Unit
+    onReadClick: (String) -> Unit,
+    onFavoriteClick: (String) -> Unit = {}
 ) {
     if (book == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -53,11 +54,11 @@ fun BookDetailScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* Save/Fav */ }) {
+                    IconButton(onClick = { onFavoriteClick(book.id) }) {
                         Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = "Favorite",
-                            tint = Color.White
+                            imageVector = if (book.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = if (book.isFavorite) "Remove from Favorites" else "Add to Favorites",
+                            tint = if (book.isFavorite) Color(0xFFE57373) else Color.White
                         )
                     }
                 },

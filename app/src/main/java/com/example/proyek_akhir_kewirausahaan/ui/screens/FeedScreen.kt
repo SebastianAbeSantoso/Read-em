@@ -14,16 +14,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -40,7 +39,8 @@ import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
 fun FeedScreen(
     uiState: ReademUiState,
     onReadFirstChapter: (String) -> Unit,
-    onBookClick: (String) -> Unit
+    onBookClick: (String) -> Unit,
+    onToggleFavorite: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
     val books = uiState.books
@@ -202,9 +202,10 @@ fun FeedScreen(
                             }
                         )
                         FeedActionItem(
-                            icon = Icons.Default.Bookmark,
+                            icon = if (book.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             label = "SAVE",
-                            onClick = { /* Handle Save */ }
+                            onClick = { onToggleFavorite(book.id) },
+                            tint = if (book.isFavorite) Color(0xFFE57373) else Color.White
                         )
                         FeedActionItem(
                             icon = Icons.Default.BarChart,

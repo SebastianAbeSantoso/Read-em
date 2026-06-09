@@ -1,16 +1,42 @@
 package com.example.proyek_akhir_kewirausahaan.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.proyek_akhir_kewirausahaan.data.local.AppDatabase
+import com.example.proyek_akhir_kewirausahaan.data.repository.BookRepositoryImpl as LocalBookRepositoryImpl
+import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetAllBooksUseCase
+import com.example.proyek_akhir_kewirausahaan.domain.usecase.SearchBooksUseCase
+import com.example.proyek_akhir_kewirausahaan.domain.usecase.ToggleFavoriteUseCase
 import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepository
+import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepositoryImpl
+import kotlinx.coroutines.runBlocking
 
 class ReademViewModelFactory (
-    private val bookRepository: BookRepository,
+    private val context: Context,
+    private val bookRepository: BookRepository = BookRepositoryImpl()
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ReademViewModel::class.java)) {
+            val database = AppDatabase.getDatabase(context)
+            val localRepository = LocalBookRepositoryImpl(database.bookDao())
+            
+            // Initialize database with static data if needed
+            runBlocking {
+                localRepository.initializeDatabaseIfNeeded()
+            }
+
+            val getAllBooksUseCase = GetAllBooksUseCase(localRepository)
+            val searchBooksUseCase = SearchBooksUseCase(localRepository)
+            val toggleFavoriteUseCase = ToggleFavoriteUseCase(localRepository)
+
             @Suppress("UNCHECKED_CAST")
-            return ReademViewModel(bookRepository) as T
+            return ReademViewModel(
+                bookRepository,
+                getAllBooksUseCase,
+                searchBooksUseCase,
+                toggleFavoriteUseCase
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

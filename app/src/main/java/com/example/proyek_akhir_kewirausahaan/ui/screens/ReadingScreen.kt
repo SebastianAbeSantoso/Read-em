@@ -18,13 +18,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.proyek_akhir_kewirausahaan.model.data.BookData
+import com.example.proyek_akhir_kewirausahaan.domain.model.Book
 import com.example.proyek_akhir_kewirausahaan.model.data.ChapterData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReadingScreen(
-    book: BookData?,
+    book: Book?,
     chapter: ChapterData?,
     onBack: () -> Unit,
     fontSize: Float = 18f

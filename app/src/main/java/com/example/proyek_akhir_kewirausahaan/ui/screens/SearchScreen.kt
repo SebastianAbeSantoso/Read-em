@@ -26,17 +26,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.proyek_akhir_kewirausahaan.R
-import com.example.proyek_akhir_kewirausahaan.model.data.BookData
+import com.example.proyek_akhir_kewirausahaan.domain.model.Book
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     uiState: ReademUiState,
+    onSearchQueryChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
     onBookClick: (String) -> Unit = {}
 ) {
-    var searchQuery by remember { mutableStateOf("") }
+    val searchQuery = uiState.searchQuery
 
     Column(
         modifier = Modifier
@@ -60,7 +61,7 @@ fun SearchScreen(
             Spacer(modifier = Modifier.width(8.dp))
             TextField(
                 value = searchQuery,
-                onValueChange = { searchQuery = it },
+                onValueChange = onSearchQueryChange,
                 placeholder = { Text("Titles, authors, or genres...", color = Color.Gray) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = Color.Gray) },
                 modifier = Modifier
@@ -245,7 +246,7 @@ fun CategoryCard(
 }
 
 @Composable
-fun RecentResultItem(book: BookData, onClick: (String) -> Unit) {
+fun RecentResultItem(book: Book, onClick: (String) -> Unit) {
     Surface(
         color = Color(0xFF1E1E1E),
         shape = RoundedCornerShape(12.dp),
