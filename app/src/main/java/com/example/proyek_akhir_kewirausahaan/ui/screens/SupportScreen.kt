@@ -1,5 +1,6 @@
 package com.example.proyek_akhir_kewirausahaan.ui.screens
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -16,10 +17,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import com.example.proyek_akhir_kewirausahaan.ui.theme.AccentSalmon
 import com.example.proyek_akhir_kewirausahaan.ui.theme.ProyekAkhirKewirausahaanTheme
 import com.example.proyek_akhir_kewirausahaan.ui.theme.TextSecondary
@@ -29,6 +32,7 @@ import com.example.proyek_akhir_kewirausahaan.ui.theme.TextSecondary
 fun SupportScreen(
     onBackClick: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -74,7 +78,14 @@ fun SupportScreen(
             SupportItem(
                 icon = Icons.Default.Email,
                 title = "Email Support",
-                description = "Send us an email and we'll reply within 24 hours"
+                description = "Send us an email and we'll reply within 24 hours",
+                onClick = {
+                    val intent = Intent(Intent.ACTION_SENDTO).apply {
+                        data = "mailto:support@reademstaff.com".toUri()
+                        putExtra(Intent.EXTRA_SUBJECT, "Support Request - Read'em Staff")
+                    }
+                    context.startActivity(intent)
+                }
             )
 
             SupportItem(
@@ -98,7 +109,8 @@ fun SupportScreen(
 fun SupportItem(
     icon: ImageVector,
     title: String,
-    description: String
+    description: String,
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = Modifier
@@ -106,7 +118,7 @@ fun SupportItem(
             .padding(vertical = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E)),
         shape = RoundedCornerShape(12.dp),
-        onClick = { /* TODO */ }
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
