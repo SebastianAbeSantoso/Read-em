@@ -8,13 +8,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModel
-import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepositoryImpl
 import com.example.proyek_akhir_kewirausahaan.ui.components.BottomNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.components.TopNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.screens.BookDetailScreen
@@ -42,8 +42,9 @@ enum class ReademScreen(val route: String) {
 
 @Composable
 fun ReademApp() {
+    val context = LocalContext.current
     val factory = remember {
-        ReademViewModelFactory(BookRepositoryImpl())
+        ReademViewModelFactory(context)
     }
 
     val viewModel: ReademViewModel = viewModel(factory = factory)
@@ -133,12 +134,14 @@ fun ReademApp() {
                         },
                         onBookClick = { bookId ->
                             navController.navigate("bookDetail/$bookId")
-                        }
+                        },
+                        onToggleFavorite = viewModel::toggleFavorite
                     )
                 }
                 composable(ReademScreen.Search.route) {
                     SearchScreen(
                         uiState = uiState,
+                        onSearchQueryChange = viewModel::onSearchQueryChange,
                         onBackClick = { navController.popBackStack() },
                         onBookClick = { bookId ->
                             navController.navigate("bookDetail/$bookId")
@@ -195,7 +198,8 @@ fun ReademApp() {
                         onBack = { navController.popBackStack() },
                         onReadClick = { id ->
                             navController.navigate("reading/$id")
-                        }
+                        },
+                        onFavoriteClick = viewModel::toggleFavorite
                     )
                 }
             }

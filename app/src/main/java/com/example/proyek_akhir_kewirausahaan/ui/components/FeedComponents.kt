@@ -25,7 +25,8 @@ fun FeedActionItem(
     icon: ImageVector,
     label: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    tint: Color = Color.White
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,7 +41,7 @@ fun FeedActionItem(
                 Icon(
                     imageVector = icon,
                     contentDescription = label,
-                    tint = Color.White,
+                    tint = tint,
                     modifier = Modifier.size(24.dp)
                 )
             }
