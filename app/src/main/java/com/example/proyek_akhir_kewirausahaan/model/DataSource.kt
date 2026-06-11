@@ -13,7 +13,7 @@ object DataSource {
             id = "book_001",
             title = "The Kinetic Theory of Silence",
             author = "Diana V. Sterling",
-            coverResId = R.drawable.ic_launcher_background, // TODO: Replace Placeholder
+            coverResId = R.drawable.ic_launcher_background,
             genres = listOf("Metaphysics", "Noor Release"),
             synopsis = "Traveling from the brutalist libraries of tech cities to silent monasteries...",
             totalChapters = 12,
@@ -97,42 +97,35 @@ object DataSource {
             bookId = "book_001",
             number = 1,
             title = "The Architecture of Quiet",
-            content = "The last time Berlin didn't just feel distant, it felt thick..." // long string
+            content = "The last time Berlin didn't just feel distant, it felt thick..."
         ),
         ChapterData(
             id = "ch_002_01",
             bookId = "book_002",
             number = 1,
             title = "Neon Sap",
-            content = "The rain in Neo-Tokyo tasted like ozone and burnt copper. I adjusted my optical implants, watching the data-stream flow through the roots of the central server-tree. Someone had been here, leaving a trace that shouldn't exist."
-        ),
-        ChapterData(
-            id = "ch_003_01",
-            bookId = "book_003",
-            number = 1,
-            title = "The Inkwell",
-            content = "Master Kaelen always said that ink was the blood of the soul. I didn't believe him until I saw my own shadow dip its fingers into the bottle and start writing its own story on the wall. It wasn't my story."
+            content = "The rain in Neo-Tokyo tasted like ozone and burnt copper..."
         )
     )
     val userProfile = UserProfileData(
         id = "user_local",
-        name = "Alex Vandervolt",
-        avatarRes = R.drawable.ic_launcher_foreground, // TODO: replace placeholder
+        name = "Gojo Satoru",
+        avatarRes = R.drawable.ic_launcher_foreground,
+        secondaryAvatarRes = R.drawable.ic_launcher_foreground,
+        rankTitle = "Premium Archivist",
         level = 42,
         xp = 12450,
         xpToNextLevel = 15000,
         streakDays = 48,
-        totalBooksRead = 31,
-        totalPagesRead = 4218
+        totalBooksRead = 1204,
+        totalNotes = 84000,
+        credentials = listOf("POLYMATH", "DEEP THINKER", "SCRIBE", "CURATOR"),
+        weeklyXp = listOf(200, 800, 500, 1000)
     )
     val readSessions = mutableListOf(
         ReadSessionData("book_001", currentChapter = 3, progressPercent = 0.27f,
             lastReadAt = System.currentTimeMillis(), status = ReadStatus.IN_PROGRESS),
-        ReadSessionData("book_002", currentChapter = 1, progressPercent = 0.12f,
-            lastReadAt = System.currentTimeMillis() - 3600000L, status = ReadStatus.IN_PROGRESS),
         ReadSessionData("book_003", currentChapter = 18, progressPercent = 1f,
             lastReadAt = System.currentTimeMillis() - 86400000L, status = ReadStatus.COMPLETED),
-        ReadSessionData("book_005", currentChapter = 5, progressPercent = 0.15f,
-            lastReadAt = System.currentTimeMillis() - 172800000L, status = ReadStatus.IN_PROGRESS),
     )
 }
