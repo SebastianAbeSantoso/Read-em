@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.proyek_akhir_kewirausahaan.data.local.AppDatabase
 import com.example.proyek_akhir_kewirausahaan.data.repository.BookRepositoryImpl as LocalBookRepositoryImpl
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetAllBooksUseCase
+import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetUserProfileUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.SearchBooksUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.ToggleFavoriteUseCase
 import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepository
@@ -20,8 +21,7 @@ class ReademViewModelFactory (
         if (modelClass.isAssignableFrom(ReademViewModel::class.java)) {
             val database = AppDatabase.getDatabase(context)
             val localRepository = LocalBookRepositoryImpl(database.bookDao())
-            
-            // Initialize database with static data if needed
+
             runBlocking {
                 localRepository.initializeDatabaseIfNeeded()
             }
@@ -29,13 +29,15 @@ class ReademViewModelFactory (
             val getAllBooksUseCase = GetAllBooksUseCase(localRepository)
             val searchBooksUseCase = SearchBooksUseCase(localRepository)
             val toggleFavoriteUseCase = ToggleFavoriteUseCase(localRepository)
+            val getUserProfileUseCase = GetUserProfileUseCase(bookRepository)
 
             @Suppress("UNCHECKED_CAST")
             return ReademViewModel(
                 bookRepository,
                 getAllBooksUseCase,
                 searchBooksUseCase,
-                toggleFavoriteUseCase
+                toggleFavoriteUseCase,
+                getUserProfileUseCase
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

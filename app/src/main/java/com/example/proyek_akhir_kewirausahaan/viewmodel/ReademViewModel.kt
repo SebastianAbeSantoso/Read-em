@@ -3,6 +3,7 @@ package com.example.proyek_akhir_kewirausahaan.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetAllBooksUseCase
+import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetUserProfileUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.SearchBooksUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.ToggleFavoriteUseCase
 import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepository
@@ -17,7 +18,8 @@ class ReademViewModel(
     private val bookRepository: BookRepository,
     private val getAllBooksUseCase: GetAllBooksUseCase,
     private val searchBooksUseCase: SearchBooksUseCase,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ReademUiState())
@@ -26,7 +28,8 @@ class ReademViewModel(
     private val _searchQuery = MutableStateFlow("")
 
     init {
-        // Observe search query and update books list accordingly
+        _uiState.update { it.copy(userProfile = getUserProfileUseCase()) }
+
         _searchQuery
             .debounce(300.milliseconds)
             .distinctUntilChanged()
