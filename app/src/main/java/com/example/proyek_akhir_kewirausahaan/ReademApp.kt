@@ -25,6 +25,7 @@ import com.example.proyek_akhir_kewirausahaan.ui.screens.SearchScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SettingScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SubscriptionScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SupportScreen
+import com.example.proyek_akhir_kewirausahaan.ui.screens.LibraryScreen
 import com.example.proyek_akhir_kewirausahaan.ui.theme.ProyekAkhirKewirausahaanTheme
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModelFactory
 
@@ -177,7 +178,13 @@ fun ReademApp() {
                         onProfilePictureClick = { navController.navigate(ReademScreen.Setting.route) }
                     )
                 }
-                composable(ReademScreen.Library.route) { /* screen malik */ }
+                composable(ReademScreen.Library.route) {
+                    LibraryScreen(
+                        uiState          = uiState,
+                        onBookClick      = { bookId -> navController.navigate("bookDetail/$bookId") },
+                        onContinueReading = { bookId -> navController.navigate("reading/$bookId") }
+                    )
+                }
                 composable(
                     route = ReademScreen.Reading.route,
                 ) { backStackEntry ->
