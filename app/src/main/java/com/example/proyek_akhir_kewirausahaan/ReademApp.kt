@@ -192,6 +192,8 @@ fun ReademApp() {
                 }
                 composable(ReademScreen.DressUp.route) {
                     DressUpScreen(
+                        savedLook = uiState.avatarLook,
+                        onSave = viewModel::saveAvatarLook,
                         onBack = { navController.popBackStack() }
                     )
                 }

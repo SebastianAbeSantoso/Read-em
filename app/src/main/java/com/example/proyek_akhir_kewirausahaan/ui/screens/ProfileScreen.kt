@@ -49,6 +49,7 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(24.dp))
             AvatarSection(
                 avatarUri = profile?.avatarUri,
+                avatarLook = uiState.avatarLook,
                 onProfilePictureClick = onProfilePictureClick,
                 onAvatarSlotClick = onAvatarSlotClick
             )
@@ -73,6 +74,7 @@ fun ProfileScreen(
 @Composable
 fun AvatarSection(
     avatarUri: String?,
+    avatarLook: com.example.proyek_akhir_kewirausahaan.model.data.AvatarLook?,
     onProfilePictureClick: () -> Unit,
     onAvatarSlotClick: () -> Unit
 ) {
@@ -112,8 +114,18 @@ fun AvatarSection(
                 .size(160.dp)
                 .clip(RoundedCornerShape(28.dp))
                 .background(Color(0xFF231F1E))
-                .clickable { onAvatarSlotClick() }
-        )
+                .clickable { onAvatarSlotClick() },
+            contentAlignment = Alignment.Center
+        ) {
+            if (avatarLook != null) {
+                AvatarLookPreview(
+                    look = avatarLook,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(322f / 702f)
+                )
+            }
+        }
     }
 }
 

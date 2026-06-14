@@ -7,6 +7,7 @@ import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetAllBooksUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetUserProfileUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.SearchBooksUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.ToggleFavoriteUseCase
+import com.example.proyek_akhir_kewirausahaan.model.data.AvatarLook
 import com.example.proyek_akhir_kewirausahaan.model.repository.BookRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -35,12 +36,14 @@ class ReademViewModel(
         viewModelScope.launch {
             val savedName = userPreferences.userName.first()
             val savedUri = userPreferences.avatarUri.first()
+            val savedLook = AvatarLook.fromJson(userPreferences.avatarLook.first())
             _uiState.update { state ->
                 state.copy(
                     userProfile = state.userProfile?.copy(
                         name = savedName ?: state.userProfile.name,
                         avatarUri = savedUri ?: state.userProfile.avatarUri
-                    )
+                    ),
+                    avatarLook = savedLook
                 )
             }
         }
@@ -87,6 +90,13 @@ class ReademViewModel(
         }
         viewModelScope.launch {
             userPreferences.setAvatarUri(uri)
+        }
+    }
+
+    fun saveAvatarLook(look: AvatarLook) {
+        _uiState.update { it.copy(avatarLook = look) }
+        viewModelScope.launch {
+            userPreferences.setAvatarLook(look.toJson())
         }
     }
 
