@@ -34,7 +34,8 @@ import java.util.Locale
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     uiState: ReademUiState,
-    onProfilePictureClick: () -> Unit = {}
+    onProfilePictureClick: () -> Unit = {},
+    onAvatarSlotClick: () -> Unit = {}
 ) {
     val profile = uiState.userProfile
 
@@ -48,7 +49,8 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(24.dp))
             AvatarSection(
                 avatarUri = profile?.avatarUri,
-                onProfilePictureClick = onProfilePictureClick
+                onProfilePictureClick = onProfilePictureClick,
+                onAvatarSlotClick = onAvatarSlotClick
             )
             Spacer(modifier = Modifier.height(24.dp))
             UserInfoSection(profile)
@@ -71,7 +73,8 @@ fun ProfileScreen(
 @Composable
 fun AvatarSection(
     avatarUri: String?,
-    onProfilePictureClick: () -> Unit
+    onProfilePictureClick: () -> Unit,
+    onAvatarSlotClick: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -109,6 +112,7 @@ fun AvatarSection(
                 .size(160.dp)
                 .clip(RoundedCornerShape(28.dp))
                 .background(Color(0xFF231F1E))
+                .clickable { onAvatarSlotClick() }
         )
     }
 }

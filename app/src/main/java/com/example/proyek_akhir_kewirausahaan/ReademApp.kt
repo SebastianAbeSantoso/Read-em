@@ -18,14 +18,15 @@ import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModel
 import com.example.proyek_akhir_kewirausahaan.ui.components.BottomNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.components.TopNavigationBar
 import com.example.proyek_akhir_kewirausahaan.ui.screens.BookDetailScreen
+import com.example.proyek_akhir_kewirausahaan.ui.screens.DressUpScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.FeedScreen
+import com.example.proyek_akhir_kewirausahaan.ui.screens.LibraryScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.ProfileScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.ReadingScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SearchScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SettingScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SubscriptionScreen
 import com.example.proyek_akhir_kewirausahaan.ui.screens.SupportScreen
-import com.example.proyek_akhir_kewirausahaan.ui.screens.LibraryScreen
 import com.example.proyek_akhir_kewirausahaan.ui.theme.ProyekAkhirKewirausahaanTheme
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademViewModelFactory
 
@@ -38,7 +39,8 @@ enum class ReademScreen(val route: String) {
     Subscription("subscription"),
     Support("support"),
     Reading("reading/{bookId}"),
-    BookDetail("bookDetail/{bookId}")
+    BookDetail("bookDetail/{bookId}"),
+    DressUp("dressup")
 }
 
 @Composable
@@ -74,7 +76,8 @@ fun ReademApp() {
         ReademScreen.Subscription,
         ReademScreen.Support,
         ReademScreen.Reading,
-        ReademScreen.BookDetail -> false
+        ReademScreen.BookDetail,
+        ReademScreen.DressUp -> false
     }
 
     val showTopBar = when (currentScreen) {
@@ -86,7 +89,8 @@ fun ReademApp() {
         ReademScreen.Subscription,
         ReademScreen.Support,
         ReademScreen.Reading,
-        ReademScreen.BookDetail -> false
+        ReademScreen.BookDetail,
+        ReademScreen.DressUp -> false
     }
 
     val showSearchTopBar = when (currentScreen) {
@@ -175,14 +179,20 @@ fun ReademApp() {
                     ProfileScreen(
                         Modifier,
                         uiState,
-                        onProfilePictureClick = { navController.navigate(ReademScreen.Setting.route) }
+                        onProfilePictureClick = { navController.navigate(ReademScreen.Setting.route) },
+                        onAvatarSlotClick = { navController.navigate(ReademScreen.DressUp.route) }
                     )
                 }
                 composable(ReademScreen.Library.route) {
                     LibraryScreen(
-                        uiState          = uiState,
-                        onBookClick      = { bookId -> navController.navigate("bookDetail/$bookId") },
+                        uiState = uiState,
+                        onBookClick = { bookId -> navController.navigate("bookDetail/$bookId") },
                         onContinueReading = { bookId -> navController.navigate("reading/$bookId") }
+                    )
+                }
+                composable(ReademScreen.DressUp.route) {
+                    DressUpScreen(
+                        onBack = { navController.popBackStack() }
                     )
                 }
                 composable(
