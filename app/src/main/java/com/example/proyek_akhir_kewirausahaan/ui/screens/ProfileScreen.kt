@@ -1,7 +1,9 @@
 package com.example.proyek_akhir_kewirausahaan.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -13,23 +15,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.proyek_akhir_kewirausahaan.domain.model.Book
 import com.example.proyek_akhir_kewirausahaan.model.data.UserProfileData
 import com.example.proyek_akhir_kewirausahaan.ui.theme.AccentSalmon
 import com.example.proyek_akhir_kewirausahaan.ui.theme.ProyekAkhirKewirausahaanTheme
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
 import java.util.Locale
+import com.example.proyek_akhir_kewirausahaan.model.DataSource
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    uiState: ReademUiState
+    uiState: ReademUiState,
+    onProfilePictureClick: () -> Unit = {}
 ) {
     val profile = uiState.userProfile
 
@@ -41,7 +47,10 @@ fun ProfileScreen(
     ) {
         item {
             Spacer(modifier = Modifier.height(24.dp))
-            AvatarSection()
+            AvatarSection(
+                avatarUri = profile?.avatarUri,
+                onProfilePictureClick = onProfilePictureClick
+            )
             Spacer(modifier = Modifier.height(24.dp))
             UserInfoSection(profile)
             Spacer(modifier = Modifier.height(32.dp))
@@ -61,7 +70,10 @@ fun ProfileScreen(
 }
 
 @Composable
-fun AvatarSection() {
+fun AvatarSection(
+    avatarUri: String?,
+    onProfilePictureClick: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -71,7 +83,16 @@ fun AvatarSection() {
                 .size(160.dp)
                 .clip(RoundedCornerShape(28.dp))
                 .background(Color(0xFF231F1E))
+                .clickable { onProfilePictureClick() }
         ) {
+            if (avatarUri != null) {
+                Image(
+                    painter = rememberAsyncImagePainter(avatarUri),
+                    contentDescription = "Profile picture",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            }
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -112,7 +133,7 @@ fun UserInfoSection(profile: UserProfileData?) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = (profile?.name ?: "Reader").uppercase(),
+            text = (profile?.name ?: "Reader"),
             fontSize = 42.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White,
@@ -370,15 +391,8 @@ fun ArchiveBreakdownSection(books: List<Book>) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        val displayBooks = if (books.isEmpty()) {
-            listOf(
-                Book("1", "Silent Horizon", "Author", 0, listOf("SCIENCE FICTION"), "", 0, 0, 0.0, 0),
-                Book("2", "The Lost Archive", "Author", 0, listOf("MYSTERY"), "", 0, 0, 0.0, 0),
-                Book("3", "Digital Breath", "Author", 0, listOf("CYBERPUNK"), "", 0, 0, 0.0, 0),
-                Book("4", "Kinetic Dreams", "Author", 0, listOf("POETRY"), "", 0, 0, 0.0, 0)
-            )
-        } else {
-            books
+        val displayBooks = books.ifEmpty {
+            DataSource.books.take(4).map { it.toProfileBook() }
         }
 
         displayBooks.chunked(2).forEach { rowBooks ->
@@ -454,6 +468,22 @@ private fun formatCount(value: Int): String {
     }
 }
 
+private fun com.example.proyek_akhir_kewirausahaan.model.data.BookData.toProfileBook(): Book {
+    return Book(
+        id = id,
+        title = title,
+        author = author,
+        coverResId = coverResId,
+        genres = genres,
+        synopsis = synopsis,
+        totalChapters = totalChapters,
+        readingTimeMin = readingTimeMin,
+        rating = rating,
+        readersCount = readersCount,
+        isPremium = isPremium
+    )
+}
+
 @Preview(showBackground = true, backgroundColor = 0xFF0C0908, heightDp = 1500)
 @Composable
 fun ProfileScreenPreview() {
@@ -476,12 +506,7 @@ fun ProfileScreenPreview() {
                         credentials = listOf("POLYMATH", "DEEP THINKER", "SCRIBE", "CURATOR"),
                         weeklyXp = listOf(200, 800, 500, 1000)
                     ),
-                    books = listOf(
-                        Book("1", "Silent Horizon", "Author", 0, listOf("SCIENCE FICTION"), "", 0, 0, 0.0, 0),
-                        Book("2", "The Lost Archive", "Author", 0, listOf("MYSTERY"), "", 0, 0, 0.0, 0),
-                        Book("3", "Digital Breath", "Author", 0, listOf("CYBERPUNK"), "", 0, 0, 0.0, 0),
-                        Book("4", "Kinetic Dreams", "Author", 0, listOf("POETRY"), "", 0, 0, 0.0, 0)
-                    )
+                    books = DataSource.books.take(4).map { it.toProfileBook() }
                 )
             )
         }

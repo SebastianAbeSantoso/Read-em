@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.proyek_akhir_kewirausahaan.data.local.AppDatabase
+import com.example.proyek_akhir_kewirausahaan.data.local.UserPreferences
 import com.example.proyek_akhir_kewirausahaan.data.repository.BookRepositoryImpl as LocalBookRepositoryImpl
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetAllBooksUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetUserProfileUseCase
@@ -30,6 +31,7 @@ class ReademViewModelFactory (
             val searchBooksUseCase = SearchBooksUseCase(localRepository)
             val toggleFavoriteUseCase = ToggleFavoriteUseCase(localRepository)
             val getUserProfileUseCase = GetUserProfileUseCase(bookRepository)
+            val userPreferences = UserPreferences(context.applicationContext)
 
             @Suppress("UNCHECKED_CAST")
             return ReademViewModel(
@@ -37,7 +39,8 @@ class ReademViewModelFactory (
                 getAllBooksUseCase,
                 searchBooksUseCase,
                 toggleFavoriteUseCase,
-                getUserProfileUseCase
+                getUserProfileUseCase,
+                userPreferences
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

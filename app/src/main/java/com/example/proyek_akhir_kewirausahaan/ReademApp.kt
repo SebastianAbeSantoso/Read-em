@@ -155,7 +155,8 @@ fun ReademApp() {
                         onDailyRemindersToggle = onDailyRemindersToggle,
                         onNewReleasesToggle = onNewReleasesToggle,
                         onManagePlanClick = { navController.navigate(ReademScreen.Subscription.route) },
-                        onSupportClick = { navController.navigate(ReademScreen.Support.route) }
+                        onSupportClick = { navController.navigate(ReademScreen.Support.route) },
+                        onUserNameChange = viewModel::updateUserName
                     )
                 }
                 composable(ReademScreen.Subscription.route) {

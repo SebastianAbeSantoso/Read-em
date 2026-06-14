@@ -2,6 +2,7 @@ package com.example.proyek_akhir_kewirausahaan.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.proyek_akhir_kewirausahaan.data.local.UserPreferences
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetAllBooksUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.GetUserProfileUseCase
 import com.example.proyek_akhir_kewirausahaan.domain.usecase.SearchBooksUseCase
@@ -19,7 +20,8 @@ class ReademViewModel(
     private val getAllBooksUseCase: GetAllBooksUseCase,
     private val searchBooksUseCase: SearchBooksUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
-    private val getUserProfileUseCase: GetUserProfileUseCase
+    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val userPreferences: UserPreferences
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ReademUiState())
@@ -29,6 +31,19 @@ class ReademViewModel(
 
     init {
         _uiState.update { it.copy(userProfile = getUserProfileUseCase()) }
+
+        viewModelScope.launch {
+            val savedName = userPreferences.userName.first()
+            val savedUri = userPreferences.avatarUri.first()
+            _uiState.update { state ->
+                state.copy(
+                    userProfile = state.userProfile?.copy(
+                        name = savedName ?: state.userProfile.name,
+                        avatarUri = savedUri ?: state.userProfile.avatarUri
+                    )
+                )
+            }
+        }
 
         _searchQuery
             .debounce(300.milliseconds)
@@ -54,6 +69,24 @@ class ReademViewModel(
     fun toggleFavorite(bookId: String) {
         viewModelScope.launch {
             toggleFavoriteUseCase(bookId)
+        }
+    }
+
+    fun updateUserName(newName: String) {
+        _uiState.update { state ->
+            state.copy(userProfile = state.userProfile?.copy(name = newName))
+        }
+        viewModelScope.launch {
+            userPreferences.setUserName(newName)
+        }
+    }
+
+    fun updateAvatarUri(uri: String) {
+        _uiState.update { state ->
+            state.copy(userProfile = state.userProfile?.copy(avatarUri = uri))
+        }
+        viewModelScope.launch {
+            userPreferences.setAvatarUri(uri)
         }
     }
 

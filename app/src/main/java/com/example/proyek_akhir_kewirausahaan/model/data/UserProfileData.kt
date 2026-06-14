@@ -4,6 +4,7 @@ data class UserProfileData(
     val id: String,
     val name: String,
     val avatarRes: Int,
+    val avatarUri: String? = null,
     val secondaryAvatarRes: Int? = null,
     val rankTitle: String,
     val level: Int,
@@ -13,5 +14,5 @@ data class UserProfileData(
     val totalBooksRead: Int,
     val totalNotes: Int,
     val credentials: List<String> = emptyList(),
-    val weeklyXp: List<Int> = emptyList() // XP for last 4 weeks
+    val weeklyXp: List<Int> = emptyList()
 )
