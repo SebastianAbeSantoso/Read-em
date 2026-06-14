@@ -168,10 +168,19 @@ fun ProfilePicturePreference(
     avatarUri: String?,
     onAvatarUriChange: (String) -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
         if (uri != null) {
+            try {
+                context.contentResolver.takePersistableUriPermission(
+                    uri,
+                    android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (_: SecurityException) {
+            }
             onAvatarUriChange(uri.toString())
         }
     }

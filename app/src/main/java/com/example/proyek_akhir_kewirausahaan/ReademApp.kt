@@ -156,7 +156,8 @@ fun ReademApp() {
                         onNewReleasesToggle = onNewReleasesToggle,
                         onManagePlanClick = { navController.navigate(ReademScreen.Subscription.route) },
                         onSupportClick = { navController.navigate(ReademScreen.Support.route) },
-                        onUserNameChange = viewModel::updateUserName
+                        onUserNameChange = viewModel::updateUserName,
+                        onAvatarUriChange = viewModel::updateAvatarUri
                     )
                 }
                 composable(ReademScreen.Subscription.route) {
@@ -172,7 +173,8 @@ fun ReademApp() {
                 composable(ReademScreen.Profile.route) {
                     ProfileScreen(
                         Modifier,
-                        uiState
+                        uiState,
+                        onProfilePictureClick = { navController.navigate(ReademScreen.Setting.route) }
                     )
                 }
                 composable(ReademScreen.Library.route) { /* screen malik */ }

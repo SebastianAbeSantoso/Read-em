@@ -21,15 +21,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.proyek_akhir_kewirausahaan.domain.model.Book
+import com.example.proyek_akhir_kewirausahaan.model.DataSource
 import com.example.proyek_akhir_kewirausahaan.model.data.UserProfileData
 import com.example.proyek_akhir_kewirausahaan.ui.theme.AccentSalmon
 import com.example.proyek_akhir_kewirausahaan.ui.theme.ProyekAkhirKewirausahaanTheme
 import com.example.proyek_akhir_kewirausahaan.viewmodel.ReademUiState
 import java.util.Locale
-import com.example.proyek_akhir_kewirausahaan.model.DataSource
 
 @Composable
 fun ProfileScreen(
@@ -124,7 +123,7 @@ fun UserInfoSection(profile: UserProfileData?) {
             Text(
                 text = (profile?.rankTitle ?: "ARCHIVIST").uppercase(),
                 color = Color(0xFF8E8E8E),
-                fontSize = 10.sp,
+                style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
             )
@@ -134,10 +133,9 @@ fun UserInfoSection(profile: UserProfileData?) {
 
         Text(
             text = (profile?.name ?: "Reader"),
-            fontSize = 42.sp,
+            style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
-            letterSpacing = (-1).sp
+            color = Color.White
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -147,12 +145,12 @@ fun UserInfoSection(profile: UserProfileData?) {
                 text = formatCount(profile?.totalBooksRead ?: 0),
                 color = AccentSalmon,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
                 text = " Books",
                 color = Color(0xFF8E8E8E),
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(bottom = 2.dp)
             )
             Spacer(modifier = Modifier.width(20.dp))
@@ -160,12 +158,12 @@ fun UserInfoSection(profile: UserProfileData?) {
                 text = formatCount(profile?.totalNotes ?: 0),
                 color = AccentSalmon,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
                 text = " Notes",
                 color = Color(0xFF8E8E8E),
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(bottom = 2.dp)
             )
         }
@@ -192,7 +190,7 @@ fun ActiveStreakCard(streakDays: Int) {
                     Text(
                         text = "ACTIVE STREAK",
                         color = Color(0xFF6E6E6E),
-                        fontSize = 10.sp,
+                        style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.weight(1f))
@@ -203,16 +201,15 @@ fun ActiveStreakCard(streakDays: Int) {
 
                 Text(
                     text = streakDays.toString(),
-                    fontSize = 64.sp,
+                    style = MaterialTheme.typography.displayLarge,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    lineHeight = 64.sp
+                    color = Color.White
                 )
 
                 Text(
                     text = "Consecutive Days",
                     color = AccentSalmon,
-                    fontSize = 16.sp,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium
                 )
             }
@@ -231,13 +228,13 @@ fun XpCountCard(level: Int, weeklyXp: List<Int>) {
             Text(
                 text = "XP COUNT",
                 color = Color(0xFF6E6E6E),
-                fontSize = 10.sp,
+                style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
                 text = "LEVEL $level",
-                fontSize = 28.sp,
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
@@ -297,7 +294,12 @@ fun XpBar(height: Dp, label: String, active: Boolean) {
                 )
         )
         Spacer(modifier = Modifier.height(12.dp))
-        Text(text = label, color = Color(0xFF4E4E4E), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+        Text(
+            text = label,
+            color = Color(0xFF4E4E4E),
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
@@ -306,7 +308,7 @@ fun CredentialsSection(credentials: List<String>) {
     Column {
         Text(
             text = "Credentials",
-            fontSize = 32.sp,
+            style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
@@ -349,7 +351,11 @@ fun AddCredentialSlot() {
                 .border(1.dp, Color(0xFF231F1E), RoundedCornerShape(16.dp)),
             contentAlignment = Alignment.Center
         ) {
-            Text("+", color = Color(0xFF231F1E), fontSize = 32.sp)
+            Text(
+                text = "+",
+                color = Color(0xFF231F1E),
+                style = MaterialTheme.typography.headlineMedium
+            )
         }
     }
 }
@@ -372,7 +378,7 @@ fun CredentialItem(name: String) {
         Text(
             text = name,
             color = Color(0xFF6E6E6E),
-            fontSize = 10.sp,
+            style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
@@ -384,7 +390,7 @@ fun ArchiveBreakdownSection(books: List<Book>) {
     Column {
         Text(
             text = "Archive Breakdown",
-            fontSize = 32.sp,
+            style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
@@ -433,7 +439,7 @@ fun ArchiveBookItem(book: Book, modifier: Modifier = Modifier) {
                     Text(
                         text = "FINISHED",
                         color = Color.White,
-                        fontSize = 10.sp,
+                        style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                     )
@@ -446,7 +452,7 @@ fun ArchiveBookItem(book: Book, modifier: Modifier = Modifier) {
         Text(
             text = book.title,
             color = Color.White,
-            fontSize = 18.sp,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             maxLines = 1
         )
@@ -454,17 +460,9 @@ fun ArchiveBookItem(book: Book, modifier: Modifier = Modifier) {
         Text(
             text = book.genres.firstOrNull() ?: "",
             color = Color(0xFF6E6E6E),
-            fontSize = 12.sp,
+            style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold
         )
-    }
-}
-
-private fun formatCount(value: Int): String {
-    return when {
-        value >= 1000 && value % 1000 == 0 -> "${value / 1000}k"
-        value >= 1000 -> String.format(Locale.US, "%,d", value)
-        else -> value.toString()
     }
 }
 
@@ -482,6 +480,14 @@ private fun com.example.proyek_akhir_kewirausahaan.model.data.BookData.toProfile
         readersCount = readersCount,
         isPremium = isPremium
     )
+}
+
+private fun formatCount(value: Int): String {
+    return when {
+        value >= 1000 && value % 1000 == 0 -> "${value / 1000}k"
+        value >= 1000 -> String.format(Locale.US, "%,d", value)
+        else -> value.toString()
+    }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFF0C0908, heightDp = 1500)
