@@ -59,7 +59,7 @@ private fun maleLayers(): List<DressLayer> = listOf(
 )
 
 private fun femaleLayers(): List<DressLayer> = listOf(
-    DressLayer("base", "Avatar", R.drawable.ava_female, 0),
+    DressLayer("base", "Avatar", R.drawable.ava_male, 0),
     DressLayer("celana", "Celana", R.drawable.celana_base, 1),
     DressLayer("baju", "Baju", R.drawable.baju_base, 2),
     DressLayer("acc_b1_feet", "Sandal Kayu", R.drawable.sendalkayu, 3),
