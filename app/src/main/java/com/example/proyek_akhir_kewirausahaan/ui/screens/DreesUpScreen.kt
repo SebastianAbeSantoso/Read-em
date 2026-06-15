@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -47,34 +47,34 @@ data class LayerTransform(
 
 private fun maleLayers(): List<DressLayer> = listOf(
     DressLayer("base", "Avatar", R.drawable.ava_male, 0),
-    DressLayer("celana", "Celana", R.drawable.celana_base, 1),
-    DressLayer("baju", "Baju", R.drawable.baju_base, 2),
-    DressLayer("acc_b1_feet", "Sandal Kayu", R.drawable.sendalkayu, 3),
-    DressLayer("acc_b3_feet", "Bot Kulit", R.drawable.sepatu, 3),
-    DressLayer("acc_b1_hand", "Buku", R.drawable.buku_kuno, 4),
-    DressLayer("acc_b3_hand", "Tongkat Sihir", R.drawable.tongkat_sihir, 4),
-    DressLayer("acc_b1_eyes", "Penutup Mata", R.drawable.penutup_mata, 5),
-    DressLayer("acc_b3_eyes", "Kaca Sihir", R.drawable.kaca_sihir, 5),
-    DressLayer("acc_b1_head", "Tudung", R.drawable.tudung, 6),
-    DressLayer("acc_b3_head", "Topi Penyihir", R.drawable.topi_penyihir, 6),
-    DressLayer("acc_b1_top", "Jubah", R.drawable.jubah, 2),
-    DressLayer("acc_b3_neck", "Tas Sihir", R.drawable.tas_sihir, 4)
+    DressLayer("celana", "Pants", R.drawable.celana_base, 1),
+    DressLayer("baju", "Shirt", R.drawable.baju_base, 2),
+    DressLayer("acc_b1_feet", "Wooden Sandals", R.drawable.sendalkayu, 3),
+    DressLayer("acc_b3_feet", "Leather Boots", R.drawable.sepatu, 3),
+    DressLayer("acc_b1_hand", "Book", R.drawable.buku_kuno, 4),
+    DressLayer("acc_b3_hand", "Magic Staff", R.drawable.tongkat_sihir, 4),
+    DressLayer("acc_b1_eyes", "Blindfold", R.drawable.penutup_mata, 5),
+    DressLayer("acc_b3_eyes", "Magic Glasses", R.drawable.kaca_sihir, 5),
+    DressLayer("acc_b1_head", "Hood", R.drawable.tudung, 6),
+    DressLayer("acc_b3_head", "Wizard Hat", R.drawable.topi_penyihir, 6),
+    DressLayer("acc_b1_top", "Robe", R.drawable.jubah, 2),
+    DressLayer("acc_b3_neck", "Magic Pouch", R.drawable.tas_sihir, 4)
 )
 
 private fun femaleLayers(): List<DressLayer> = listOf(
     DressLayer("base", "Avatar", R.drawable.ava_male, 0),
-    DressLayer("celana", "Celana", R.drawable.celana_base, 1),
-    DressLayer("baju", "Baju", R.drawable.baju_base, 2),
-    DressLayer("acc_b1_feet", "Sandal Kayu", R.drawable.sendalkayu, 3),
-    DressLayer("acc_b3_feet", "Bot Kulit", R.drawable.sepatu, 3),
-    DressLayer("acc_b1_hand", "Buku", R.drawable.buku_kuno, 4),
-    DressLayer("acc_b3_hand", "Tongkat Sihir", R.drawable.tongkat_sihir, 4),
-    DressLayer("acc_b1_eyes", "Penutup Mata", R.drawable.penutup_mata, 5),
-    DressLayer("acc_b3_eyes", "Kaca Sihir", R.drawable.kaca_sihir, 5),
-    DressLayer("acc_b1_head", "Tudung", R.drawable.tudung, 6),
-    DressLayer("acc_b3_head", "Topi Penyihir", R.drawable.topi_penyihir, 6),
-    DressLayer("acc_b1_top", "Jubah", R.drawable.jubah, 2),
-    DressLayer("acc_b3_neck", "Tas Sihir", R.drawable.tas_sihir, 4)
+    DressLayer("celana", "Pants", R.drawable.celana_base, 1),
+    DressLayer("baju", "Shirt", R.drawable.baju_base, 2),
+    DressLayer("acc_b1_feet", "Wooden Sandals", R.drawable.sendalkayu, 3),
+    DressLayer("acc_b3_feet", "Leather Boots", R.drawable.sepatu, 3),
+    DressLayer("acc_b1_hand", "Book", R.drawable.buku_kuno, 4),
+    DressLayer("acc_b3_hand", "Magic Staff", R.drawable.tongkat_sihir, 4),
+    DressLayer("acc_b1_eyes", "Blindfold", R.drawable.penutup_mata, 5),
+    DressLayer("acc_b3_eyes", "Magic Glasses", R.drawable.kaca_sihir, 5),
+    DressLayer("acc_b1_head", "Hood", R.drawable.tudung, 6),
+    DressLayer("acc_b3_head", "Wizard Hat", R.drawable.topi_penyihir, 6),
+    DressLayer("acc_b1_top", "Robe", R.drawable.jubah, 2),
+    DressLayer("acc_b3_neck", "Magic Pouch", R.drawable.tas_sihir, 4)
 )
 
 fun layersFor(gender: DressGender): List<DressLayer> =
@@ -121,11 +121,11 @@ fun DressUpScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Ruang Ganti", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                Text("Dressing Room", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
                 Row {
-                    GenderChip("Cowok", gender == DressGender.MALE) { gender = DressGender.MALE }
+                    GenderChip("Male", gender == DressGender.MALE) { gender = DressGender.MALE }
                     Spacer(Modifier.width(8.dp))
-                    GenderChip("Cewek", gender == DressGender.FEMALE) { gender = DressGender.FEMALE }
+                    GenderChip("Female", gender == DressGender.FEMALE) { gender = DressGender.FEMALE }
                 }
             }
         }
@@ -165,18 +165,20 @@ fun DressUpScreen(
                                     .then(
                                         if (isSel) Modifier.border(1.dp, Color(0xFFE57373)) else Modifier
                                     )
-                                    .pointerInput(layer.id, isSel) {
+                                    .then(
                                         if (isSel) {
-                                            detectDragGestures { _, drag ->
-                                                val cur = transforms[layer.id] ?: LayerTransform()
-                                                transforms[layer.id] = cur.copy(
-                                                    offsetX = cur.offsetX + drag.x,
-                                                    offsetY = cur.offsetY + drag.y
-                                                )
+                                            Modifier.pointerInput(layer.id) {
+                                                detectTransformGestures { _, pan, zoom, _ ->
+                                                    val cur = transforms[layer.id] ?: LayerTransform()
+                                                    transforms[layer.id] = cur.copy(
+                                                        offsetX = cur.offsetX + pan.x,
+                                                        offsetY = cur.offsetY + pan.y,
+                                                        scale = (cur.scale * zoom).coerceIn(0.3f, 3f)
+                                                    )
+                                                    savedMsg = false
+                                                }
                                             }
-                                        }
-                                    }
-                            )
+                                        } else Modifier))
                         }
                     }
                 }
@@ -201,17 +203,17 @@ fun DressUpScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE57373)),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Simpan Avatar", color = Color.White, fontWeight = FontWeight.Bold)
+                    Text("Save Avatar", color = Color.White, fontWeight = FontWeight.Bold)
                 }
 
                 if (savedMsg) {
                     Spacer(Modifier.height(8.dp))
-                    Text("Avatar tersimpan!", color = Color(0xFF1D9E75), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    Text("Avatar saved!", color = Color(0xFF1D9E75), fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 }
 
                 Spacer(Modifier.height(20.dp))
 
-                Text("Pilih item untuk diatur", color = Color(0xFF8E8E8E), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                Text("Select an item to adjust", color = Color(0xFF8E8E8E), fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(8.dp))
 
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -234,35 +236,23 @@ fun DressUpScreen(
                 Spacer(Modifier.height(20.dp))
 
                 if (selectedId != "base") {
-                    val t = transforms[selectedId] ?: LayerTransform()
-                    Text("Mengatur: ${layers.first { it.id == selectedId }.label}", color = Color.White, fontWeight = FontWeight.Bold)
-                    Spacer(Modifier.height(8.dp))
-
-                    Text("Geser X: ${t.offsetX.roundToInt()}", color = Color(0xFF8E8E8E), fontSize = 12.sp)
-                    Slider(
-                        value = t.offsetX,
-                        onValueChange = { transforms[selectedId] = t.copy(offsetX = it); savedMsg = false },
-                        valueRange = -400f..400f,
-                        colors = SliderDefaults.colors(thumbColor = Color(0xFFE57373), activeTrackColor = Color(0xFFE57373))
+                    Text(
+                        "Adjusting: ${layers.first { it.id == selectedId }.label}",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
                     )
-
-                    Text("Geser Y: ${t.offsetY.roundToInt()}", color = Color(0xFF8E8E8E), fontSize = 12.sp)
-                    Slider(
-                        value = t.offsetY,
-                        onValueChange = { transforms[selectedId] = t.copy(offsetY = it); savedMsg = false },
-                        valueRange = -400f..400f,
-                        colors = SliderDefaults.colors(thumbColor = Color(0xFFE57373), activeTrackColor = Color(0xFFE57373))
-                    )
-
-                    Text("Skala: ${"%.2f".format(t.scale)}", color = Color(0xFF8E8E8E), fontSize = 12.sp)
-                    Slider(
-                        value = t.scale,
-                        onValueChange = { transforms[selectedId] = t.copy(scale = it); savedMsg = false },
-                        valueRange = 0.3f..2.5f,
-                        colors = SliderDefaults.colors(thumbColor = Color(0xFFE57373), activeTrackColor = Color(0xFFE57373))
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        "Drag with one finger to move, pinch with two fingers to resize.",
+                        color = Color(0xFF8E8E8E),
+                        fontSize = 13.sp
                     )
                 } else {
-                    Text("Pilih salah satu item di atas untuk mulai mengatur posisinya.", color = Color(0xFF8E8E8E), fontSize = 13.sp)
+                    Text(
+                        "Select an item above, then tap \"Adjust\" to move and resize it directly on the avatar.",
+                        color = Color(0xFF8E8E8E),
+                        fontSize = 13.sp
+                    )
                 }
             }
         }
@@ -316,10 +306,10 @@ private fun ItemChip(
             )
             Spacer(Modifier.height(4.dp))
             Row {
-                MiniButton(if (active) "Lepas" else "Pakai", onToggleVisible)
+                MiniButton(if (active) "Remove" else "Wear", onToggleVisible)
                 if (active) {
                     Spacer(Modifier.width(4.dp))
-                    MiniButton("Atur", onSelect)
+                    MiniButton("Adjust", onSelect)
                 }
             }
         }
@@ -338,12 +328,20 @@ private fun MiniButton(label: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun AvatarLookPreview(look: AvatarLook?, modifier: Modifier = Modifier) {
+fun AvatarLookPreview(
+    look: AvatarLook?,
+    modifier: Modifier = Modifier
+) {
     if (look == null) return
     val gender = if (look.gender == "FEMALE") DressGender.FEMALE else DressGender.MALE
     val layers = layersFor(gender)
+    val density = androidx.compose.ui.platform.LocalDensity.current
 
-    Box(modifier = modifier) {
+    androidx.compose.foundation.layout.BoxWithConstraints(modifier = modifier) {
+        val boxHeightPx = with(density) { this@BoxWithConstraints.maxHeight.toPx() }
+        val designHeightPx = with(density) { 420.dp.toPx() }
+        val ratio = if (designHeightPx > 0f) boxHeightPx / designHeightPx else 1f
+
         layers.sortedBy { it.slotZ }.forEach { layer ->
             val saved = look.layers.firstOrNull { it.id == layer.id }
             val visible = saved?.visible ?: (layer.id == "base" || layer.id == "baju" || layer.id == "celana")
@@ -353,11 +351,11 @@ fun AvatarLookPreview(look: AvatarLook?, modifier: Modifier = Modifier) {
                     contentDescription = layer.label,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .fillMaxSize()
+                        .matchParentSize()
                         .offset {
                             IntOffset(
-                                (saved?.offsetX ?: 0f).roundToInt(),
-                                (saved?.offsetY ?: 0f).roundToInt()
+                                ((saved?.offsetX ?: 0f) * ratio).roundToInt(),
+                                ((saved?.offsetY ?: 0f) * ratio).roundToInt()
                             )
                         }
                         .graphicsLayer(
