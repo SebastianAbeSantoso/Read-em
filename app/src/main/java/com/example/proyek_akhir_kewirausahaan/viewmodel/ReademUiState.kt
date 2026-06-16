@@ -6,6 +6,7 @@ import com.example.proyek_akhir_kewirausahaan.model.data.UserProfileData
 
 data class ReademUiState(
     val books: List<Book> = emptyList(),
+    val removedBookIds: Set<String> = emptySet(),
     val userProfile: UserProfileData? = null,
     val avatarLook: AvatarLook? = null,
     val isLoading: Boolean = false,

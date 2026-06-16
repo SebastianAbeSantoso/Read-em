@@ -14,5 +14,6 @@ data class BookData(
     val rating: Double,
     val readersCount: Int,
     val isPremium: Boolean = false,
-    val premiumUnlockXp: Int = 0
+    val premiumUnlockXp: Int = 0,
+    val isFavorite: Boolean = false
 )

@@ -140,7 +140,8 @@ fun ReademApp() {
                         onBookClick = { bookId ->
                             navController.navigate("bookDetail/$bookId")
                         },
-                        onToggleFavorite = viewModel::toggleFavorite
+                        onToggleFavorite = viewModel::toggleFavorite,
+                        onRemoveBook = viewModel::removeBookFromFeed
                     )
                 }
                 composable(ReademScreen.Search.route) {

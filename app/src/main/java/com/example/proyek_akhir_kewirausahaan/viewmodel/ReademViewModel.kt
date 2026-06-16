@@ -112,5 +112,9 @@ class ReademViewModel(
         _uiState.update { it.copy(newReleases = enabled) }
     }
 
+    fun removeBookFromFeed(bookId: String) {
+        _uiState.update { it.copy(removedBookIds = it.removedBookIds + bookId) }
+    }
+
     fun getFirstChapter(bookId: String) = bookRepository.getChapters(bookId).firstOrNull { it.number == 1 }
 }
