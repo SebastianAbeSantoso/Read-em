@@ -23,8 +23,9 @@ data class BookEntity(
             id = id,
             title = title,
             author = author,
-            coverResId = coverResId,
-            genres = emptyList(), // Room doesn't support List easily, we can add TypeConverters later if needed
+            coverResId = com.example.proyek_akhir_kewirausahaan.model.DataSource.books
+                .find { it.id == id }?.coverResId ?: coverResId,
+            genres = emptyList(),
             synopsis = synopsis,
             totalChapters = totalChapters,
             readingTimeMin = readingTimeMin,

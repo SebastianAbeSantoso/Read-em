@@ -16,12 +16,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.example.proyek_akhir_kewirausahaan.R
 import com.example.proyek_akhir_kewirausahaan.domain.model.Book
 import com.example.proyek_akhir_kewirausahaan.model.DataSource
 import com.example.proyek_akhir_kewirausahaan.model.data.UserProfileData
@@ -96,16 +98,6 @@ fun AvatarSection(
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
-            }
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(8.dp)
-                    .size(24.dp)
-                    .background(Color(0xFFE57373), RoundedCornerShape(4.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Box(modifier = Modifier.size(12.dp).background(Color.White.copy(alpha = 0.8f), CircleShape))
             }
         }
 
@@ -194,13 +186,6 @@ fun ActiveStreakCard(streakDays: Int) {
         shape = RoundedCornerShape(20.dp)
     ) {
         Box(modifier = Modifier.padding(24.dp).fillMaxWidth()) {
-            Box(
-                modifier = Modifier
-                    .size(width = 80.dp, height = 100.dp)
-                    .align(Alignment.BottomEnd)
-                    .background(Color(0xFF1E1A19), RoundedCornerShape(8.dp))
-            )
-
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -210,7 +195,6 @@ fun ActiveStreakCard(streakDays: Int) {
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.weight(1f))
-                    Box(modifier = Modifier.size(20.dp).background(AccentSalmon, CircleShape))
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -378,6 +362,14 @@ fun AddCredentialSlot() {
 
 @Composable
 fun CredentialItem(name: String) {
+    val iconRes = when (name.uppercase()) {
+        "POLYMATH" -> R.drawable.polymath
+        "DEEP THINKER" -> R.drawable.deep_thinker
+        "SCRIBE" -> R.drawable.scribe
+        "CURATOR" -> R.drawable.curator
+        else -> null
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(100.dp)
@@ -388,7 +380,15 @@ fun CredentialItem(name: String) {
                 .background(Color(0xFF161312), RoundedCornerShape(16.dp)),
             contentAlignment = Alignment.Center
         ) {
-            Box(modifier = Modifier.size(40.dp).background(AccentSalmon.copy(alpha = 0.2f), CircleShape))
+            if (iconRes != null) {
+                Image(
+                    painter = painterResource(id = iconRes),
+                    contentDescription = name,
+                    modifier = Modifier.size(48.dp)
+                )
+            } else {
+                Box(modifier = Modifier.size(40.dp).background(AccentSalmon.copy(alpha = 0.2f), CircleShape))
+            }
         }
         Spacer(modifier = Modifier.height(12.dp))
         Text(
@@ -413,9 +413,7 @@ fun ArchiveBreakdownSection(books: List<Book>) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        val displayBooks = books.ifEmpty {
-            DataSource.books.take(4).map { it.toProfileBook() }
-        }
+        val displayBooks = DataSource.books.take(4).map { it.toProfileBook() }
 
         displayBooks.chunked(2).forEach { rowBooks ->
             Row(
@@ -444,6 +442,15 @@ fun ArchiveBookItem(book: Book, modifier: Modifier = Modifier) {
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color(0xFF161312))
         ) {
+            if (book.coverResId != 0) {
+                Image(
+                    painter = painterResource(id = book.coverResId),
+                    contentDescription = book.title,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            }
+
             if (book.title == "Silent Horizon") {
                 Surface(
                     color = Color(0xFFE57373),

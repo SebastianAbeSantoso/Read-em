@@ -151,7 +151,7 @@ fun SearchScreen(
                 ) {
                     CategoryCard(
                         title = "Science",
-                        imageRes = R.drawable.ic_launcher_background,
+                        imageRes = R.drawable.orizon,
                         modifier = Modifier
                             .weight(1f)
                             .height(120.dp)
